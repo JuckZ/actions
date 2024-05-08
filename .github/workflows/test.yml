@@ -1,0 +1,25 @@
+name: 'test'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: rebase
+  cancel-in-progress: true
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: check out repo for action code
+        uses: actions/checkout@v4
+      - name: rebase
+        uses: ./rebase
+        with:
+          upstream: https://github.com/JuckZ/actions.git
+          upstream-branch: test
